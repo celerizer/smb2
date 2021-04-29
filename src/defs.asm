@@ -48,6 +48,7 @@ Character_Mario = $00
 Character_Princess = $01
 Character_Toad = $02
 Character_Luigi = $03
+Character_Rosalina = $04
 
 ; ---------------------------------------------------------------------------
 
@@ -203,6 +204,7 @@ EndingUpdateBuffer_Text_MARIO = $09
 EndingUpdateBuffer_Text_PRINCESS = $0A
 EndingUpdateBuffer_Text_TOAD = $0B
 EndingUpdateBuffer_Text_LUIGI = $0C
+EndingUpdateBuffer_Text_ROSALINA = $0D
 
 ; ---------------------------------------------------------------------------
 
@@ -760,41 +762,43 @@ CHRBank_Mario = $00
 CHRBank_Luigi = $01
 CHRBank_Princess = $02
 CHRBank_Toad = $03
-CHRBank_MarioSmall = $04
-CHRBank_LuigiSmall = $05
-CHRBank_PrincessSmall = $06
-CHRBank_ToadSmall = $07
+CHRBank_Rosalina = $04
+CHRBank_MarioSmall = $05
+CHRBank_LuigiSmall = $06
+CHRBank_PrincessSmall = $07
+CHRBank_ToadSmall = $08
+CHRBank_RosalinaSmall = $09
 
-CHRBank_CommonEnemies1 = $08
-CHRBank_CommonEnemies2 = $09
+CHRBank_CommonEnemies1 = $0A
+CHRBank_CommonEnemies2 = $0B
 
-CHRBank_BackgroundGrassClawgrip = $0A
+CHRBank_BackgroundGrassClawgrip = $0C
 
-CHRBank_EnemiesGrass = $0C
-CHRBank_EnemiesDesert = $0D
-CHRBank_EnemiesIce = $0E
-CHRBank_EnemiesSky = $0F
+CHRBank_EnemiesGrass = $0E
+CHRBank_EnemiesDesert = $0F
+CHRBank_EnemiesIce = $10
+CHRBank_EnemiesSky = $11
 
-CHRBank_BackgroundGrass = $10
-CHRBank_BackgroundDesert = $12
-CHRBank_BackgroundIce = $14
-CHRBank_BackgroundSky = $16
+CHRBank_BackgroundGrass = $12
+CHRBank_BackgroundDesert = $14
+CHRBank_BackgroundIce = $16
+CHRBank_BackgroundSky = $18
 
-CHRBank_Animated1 = $18
-CHRBank_Animated2 = $1A
-CHRBank_Animated3 = $1C
-CHRBank_Animated4 = $1E
-CHRBank_Animated5 = $20
-CHRBank_Animated6 = $22
-CHRBank_Animated7 = $24
-CHRBank_Animated8 = $26
+CHRBank_Animated1 = $1A
+CHRBank_Animated2 = $1C
+CHRBank_Animated3 = $1E
+CHRBank_Animated4 = $20
+CHRBank_Animated5 = $22
+CHRBank_Animated6 = $24
+CHRBank_Animated7 = $26
+CHRBank_Animated8 = $28
 
-CHRBank_TitleScreenBG1 = $28
-CHRBank_TitleScreenBG2 = $2A
+CHRBank_TitleScreenBG1 = $2A
+CHRBank_TitleScreenBG2 = $2C
 
-CHRBank_CharacterSelectBG1 = $2C
-CHRBank_CharacterSelectBG2 = $2E
-CHRBank_CharacterSelectSprites = $30
+CHRBank_CharacterSelectBG1 = $2E
+CHRBank_CharacterSelectBG2 = $30
+CHRBank_CharacterSelectSprites = $32
 
 CHRBank_ChanceBG1 = $34
 CHRBank_ChanceBG2 = $36

@@ -2425,8 +2425,8 @@ PlayerControlAcceleration:
 sub_BANK0_8C1A:
 	JSR PlayerWalkJumpAnim
 
-	LDA PlayerInAir
-	BNE ResetPartialCrouchJumpTimer
+	;LDA PlayerInAir
+	;BNE ResetPartialCrouchJumpTimer
 
 	LDA PlayerDucking
 	BEQ loc_BANK0_8C2B
@@ -2443,14 +2443,23 @@ ENDIF
 loc_BANK0_8C2B:
 	LDA Player1JoypadPress
 	BPL loc_BANK0_8C3D ; branch if not pressing A Button
-
+	
+	LDA PlayerInAir
+	CMP #$03
+	BEQ loc_BANK0_8C3D
+	CMP #$01
+	BEQ PlayerJumpDouble
+	
+PlayerJumpNormal:
 	INC PlayerInAir
 	LDA #SpriteAnimation_Jumping
 	STA PlayerAnimationFrame
 	JSR PlayerStartJump
-
-	LDA #SoundEffect2_Jump
-	STA SoundEffectQueue2
+	
+	BVC loc_BANK0_8C3D
+	
+PlayerJumpDouble:
+	JSR PlayerStartDoubleJump
 
 loc_BANK0_8C3D:
 	LDA PlayerRidingCarpet
@@ -2585,8 +2594,12 @@ PlayerStartJump_SetYVelocity:
 	STA JumpFloatTimer
 
 PlayerStartJump_Exit:
+	LDA #SoundEffect2_Jump
+	STA SoundEffectQueue2
+	
 	LDA #$00
 	STA CrouchJumpTimer
+	
 	RTS
 
 
@@ -3174,7 +3187,9 @@ PlayerTileCollision_Downward_CheckQuicksand:
 
 PlayerTileCollision_Downward_AfterCheckQuicksand:
 	STA QuicksandDepth
-	STX PlayerInAir
+	TXA
+	ORA PlayerInAir
+	STA PlayerInAir
 	JMP PlayerTileCollision_Horizontal
 
 PlayerTileCollision_CheckInteractiveTiles:
@@ -4665,7 +4680,7 @@ AreaTransitionPlacement_Jar:
 ; Place the player in the air in the middle of the screen horizontally
 ;
 AreaTransitionPlacement_Middle:
-	LDA #$01
+	LDA #$03
 	STA PlayerInAir
 	LDA #$78
 	STA PlayerXLo
@@ -5583,6 +5598,7 @@ EndingPPUDataPointers:
 	.dw EndingCelebrationText_PRINCESS
 	.dw EndingCelebrationText_TOAD
 	.dw EndingCelebrationText_LUIGI
+	.dw EndingCelebrationText_ROSALINA
 
 
 WaitForNMI_Ending_TurnOffPPU:
@@ -7069,6 +7085,10 @@ EndingCelebrationText_TOAD:
 EndingCelebrationText_LUIGI:
 	.db $20, $ED, $08, $E5, $EE, $E2, $E0, $E2, $FB, $FB, $FB
 	.db $00
+	
+EndingCelebrationText_ROSALINA:
+	.db $20, $ED, $08, $EB, $E8, $EC, $DA, $E5, $E2, $E7, $DA
+	.db $00
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -8039,3 +8059,48 @@ DebugRandomObject:
 	STA CreateObjectType
 	RTS
 ENDIF
+
+PlayerStartDoubleJump:
+	LDA CurrentCharacter
+	CMP #$04
+	BEQ PlayerDoubleJump
+	RTS
+
+PlayerDoubleJump:
+	LDA #$03
+	STA PlayerInAir
+	LDA StarInvincibilityTimer
+	ORA #$02
+	STA StarInvincibilityTimer
+	LDA #SpriteAnimation_Throwing
+	STA PlayerAnimationFrame
+	
+	; Set vertical velocity
+	LDA #$C0
+	STA PlayerYVelocity
+	
+	; Cancel some horizontal velocity
+	;LDA ControllerInput_Right
+	;BIT Player1JoypadHeld
+	;BNE PlayerDoubleJumpRight
+	
+	;LDA ControllerInput_Left
+	;BIT Player1JoypadHeld
+	;BNE PlayerDoubleJumpLeft
+	
+	JMP PlayerDoubleJumpExit
+	
+PlayerDoubleJumpRight:
+	LDA #$14
+	STA PlayerXVelocity
+	JMP PlayerDoubleJumpExit
+
+PlayerDoubleJumpLeft:
+	LDA #$EC
+	STA PlayerXVelocity
+	
+PlayerDoubleJumpExit:
+	LDA #SoundEffect1_ThrowItem
+	STA SoundEffectQueue1
+	
+	RTS

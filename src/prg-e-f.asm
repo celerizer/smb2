@@ -685,7 +685,7 @@ loc_BANKF_E2CA:
 
 loc_BANKF_E2E8:
 	LDA Player1JoypadPress
-	AND #ControllerInput_Right | ControllerInput_Left
+	AND #ControllerInput_Right | ControllerInput_Left | ControllerInput_Down | ControllerInput_Up
 	BNE CharacterSelect_ChangeCharacter
 
 	JMP CharacterSelectMenuLoop
@@ -695,25 +695,35 @@ loc_BANKF_E2E8:
 CharacterSelect_ChangeCharacter:
 	LDA Player1JoypadPress
 	AND #ControllerInput_Right
-	BEQ loc_BANKF_E2FE
-
-	DEC CurrentCharacter
-	LDA #SoundEffect1_CherryGet
-	STA SoundEffectQueue1
-
-loc_BANKF_E2FE:
+	BNE CharacterSelect_ChangeCharacter_Right
+	
 	LDA Player1JoypadPress
-	AND #ControllerInput_Left
-	BEQ loc_BANKF_E30B
+	AND #ControllerInput_Down
+	BNE CharacterSelect_ChangeCharacter_Down
 
-	INC CurrentCharacter
-	LDA #SoundEffect1_CherryGet
-	STA SoundEffectQueue1
-
-loc_BANKF_E30B:
+CharacterSelect_ChangeCharacter_Left:
 	LDA CurrentCharacter
+	ADC #$01
 	AND #$03
 	STA CurrentCharacter
+	LDA #SoundEffect1_CherryGet
+	STA SoundEffectQueue1
+	JMP loc_BANKF_E311
+
+CharacterSelect_ChangeCharacter_Right:
+	LDA CurrentCharacter
+	ADC #$FF
+	AND #$03
+	STA CurrentCharacter
+	LDA #SoundEffect1_CherryGet
+	STA SoundEffectQueue1
+	JMP loc_BANKF_E311
+	
+CharacterSelect_ChangeCharacter_Down:
+	LDA #$04
+	STA CurrentCharacter
+	LDA #SoundEffect1_CherryGet
+	STA SoundEffectQueue1
 
 loc_BANKF_E311:
 	LDY #$00
@@ -3479,6 +3489,7 @@ CharacterEyeTiles:
 	.db $D9 ; Luigi
 	.db $FB ; Toad
 	.db $D7 ; Princess
+	.db $D7 ; Rosalina
 
 CharacterTiles_Walk1:
 	.db $00
@@ -5740,6 +5751,8 @@ CHRBank_CharacterSize:
 	.db CHRBank_ToadSmall
 	.db CHRBank_Luigi
 	.db CHRBank_LuigiSmall
+	.db CHRBank_Rosalina
+	.db CHRBank_RosalinaSmall
 
 
 LoadWorldCHRBanks:

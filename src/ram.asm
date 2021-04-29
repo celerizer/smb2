@@ -1716,9 +1716,8 @@ CharacterLevelsCompleted:
 	.dsb 1 ; $062e
 	.dsb 1 ; $062f
 	.dsb 1 ; $0630
+	.dsb 1 ; $0631 for Rosalina
 MaxLevelsCompleted:
-	.dsb 1 ; $0631
-; FOR RENT
 	.dsb 1 ; $0632
 ; FOR RENT
 LevelObjectMode:
